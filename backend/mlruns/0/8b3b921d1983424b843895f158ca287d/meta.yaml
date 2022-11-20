@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/8b3b921d1983424b843895f158ca287d/artifacts
+end_time: 1668964504712
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 8b3b921d1983424b843895f158ca287d
+run_name: able-penguin-887
+run_uuid: 8b3b921d1983424b843895f158ca287d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1668964431792
+status: 3
+tags: []
+user_id: alfa
