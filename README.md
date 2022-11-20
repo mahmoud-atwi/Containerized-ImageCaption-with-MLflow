@@ -16,7 +16,7 @@ ___
 
 
 ## Get training data
-python /data/getData.py
+- Run python sctipt to download training data: `python /data/getData.py`
 
 ## Train the model
 - `MLflow` - start MLflow server by running: mlflow ui
