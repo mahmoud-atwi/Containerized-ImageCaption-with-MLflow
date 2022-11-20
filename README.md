@@ -23,7 +23,7 @@ ___
 - `Pytorch training` - run "training.py" to train the model
 
 ## Containerizarion
-- User docker compose: docker-compose up -d --build
+- User docker compose: `docker-compose up -d --build`
 
 ## webUI
 - use "http://localhost:8501" to access the service front-end
