@@ -1,0 +1,12 @@
+fastapi
+mlflow
+pandas
+numpy
+requests
+python-multipart
+uvicorn
+sklearn
+torchvision>=0.9.1
+torch>=1.9.0
+scikit-image
+Pillow
