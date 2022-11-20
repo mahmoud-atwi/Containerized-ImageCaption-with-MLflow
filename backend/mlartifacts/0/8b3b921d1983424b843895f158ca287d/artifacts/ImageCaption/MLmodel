@@ -1,0 +1,18 @@
+artifact_path: ImageCaption
+flavors:
+  python_function:
+    data: data
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.pytorch
+    pickle_module_name: mlflow.pytorch.pickle_module
+    python_version: 3.10.6
+  pytorch:
+    code: null
+    model_data: data
+    pytorch_version: 1.10.2
+mlflow_version: 2.0.1
+model_uuid: 4abb170db636492ea04c8b3e3d327860
+run_id: 8b3b921d1983424b843895f158ca287d
+utc_time_created: '2022-11-20 17:15:01.830845'

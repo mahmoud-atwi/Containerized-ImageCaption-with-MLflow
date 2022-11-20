@@ -1,0 +1,7 @@
+python: '3.10'
+build_dependencies:
+- pip
+dependencies:
+- sklearn
+- torchvision>=0.9.1
+- torch>=1.9.0
