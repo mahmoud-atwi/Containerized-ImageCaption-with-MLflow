@@ -1,12 +1,5 @@
-# Containerized MLflow Image Caption Model
+# Containerized MLflow Image-Caption Model
 
-
-## Overview
-
-
-## Objective
-
-___
 ## Pipeline Components
 - MLflow tracking
 - Deployment of best model via FastAPI

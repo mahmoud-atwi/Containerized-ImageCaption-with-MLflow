@@ -1,8 +1,6 @@
-import pandas as pd
-import io
 import math
 
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse, HTMLResponse
 
@@ -16,9 +14,10 @@ import torch.nn.functional as F
 from beheaded_inception3 import beheaded_inception_v3
 from utils import as_matrix
 
-import matplotlib.pyplot as plt
-from skimage.transform import resize
+
 from PIL import Image
+
+import json
 
 # Create FastAPI instance
 app = FastAPI()
@@ -42,8 +41,6 @@ best_run = get_bestModel(runs)
 
 path = f'mlartifacts/{exp_id}/{best_run}/artifacts/ImageCaption'
 
-print(best_run)
-
 best_model = mlflow.pytorch.load_model(path)
 
 
@@ -60,14 +57,11 @@ eos_ix = word_to_index['#END#']
 unk_ix = word_to_index['#UNK#']
 pad_ix = word_to_index['#PAD#']
 
-def generate_caption(image, caption_prefix = ('#START#',), t=1, sample=True, max_len=100):
+def generate_caption(image, caption_prefix = ('#START#',), t=5, sample=True, max_len=100):
     global best_model
 
     best_model = best_model.cpu().eval()
 
-    assert isinstance(image, np.ndarray) and np.max(image) <= 1\
-           and np.min(image) >= 0 and image.shape[-1] == 3
-    
     image = torch.tensor(image.transpose([2, 0, 1]), dtype=torch.float32)
     
     _, vectors_neck, _ = inception(image[None])
@@ -95,18 +89,20 @@ def generate_caption(image, caption_prefix = ('#START#',), t=1, sample=True, max
 
     return ' '.join(caption_prefix[1:-1])
 
+
 # Create POST endpoint with path '/predict'
 @app.post("/predict")
-async def predict(file: UploadFile = File(...)):
+async def predict(file: bytes = File(...)):
 
-    request_object_content = await file.read()
-    img = Image.open(io.BytesIO(request_object_content))
-    # img = resize(img, (299, 299))
-    print(img.size)
-    pred_caption = generate_caption(img)
-    print(f'pred_caption: {pred_caption}')
-    json_compatible_item_data = jsonable_encoder(pred_caption)
-    print(f'json_compatible_item_data: {json_compatible_item_data}')
+    try:
+        img = Image.frombytes('RGB', (299, 299), file)
+        img = np.asarray(img)
+
+        pred_caption = generate_caption(img)
+        json_compatible_item_data = jsonable_encoder(pred_caption)
+    except ValueError as e:
+        json_compatible_item_data = jsonable_encoder("Fail")
+
     return JSONResponse(content=json_compatible_item_data)
 
 @app.get("/")
